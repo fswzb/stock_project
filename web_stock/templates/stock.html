@@ -1,0 +1,25 @@
+{% block body %}
+  <h2>Welcome!</h2>
+  <h2>Please input a stock code.</h2>
+  <h4>（For example: sh601988）</h4>
+  {% if error %} 
+    <p class=error><strong>Error:</strong> {{ error }} <!--if the username or password is wrong, we will get this error message-->
+  {% endif %}
+  <form action="" method=post>
+    <dl>
+      <dt>stock code:
+      <dd><input type=text name=stockcode value="{{
+          request.form.stockcode }}">
+    </dl>
+    <p><input type=submit value=query>  <!--this value is the words on the button-->
+  </form>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+{% endblock %}

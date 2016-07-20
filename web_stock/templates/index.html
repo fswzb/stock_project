@@ -1,0 +1,5 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h1>Welcome to stock news project!</h1>
+  <p>Do you want to <a href="{{ url_for('login') }}">log in?</a> <!--可以用 url_for() 来给指定的函数构造 URL, 这里是login的函数链接-->
+{% endblock %}
