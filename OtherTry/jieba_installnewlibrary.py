@@ -11,14 +11,14 @@ import PIL
 import matplotlib.pyplot as plt
 import numpy as np
 
-f = open(r'C:\Users\tan\Desktop\text_mining\wordcloud_sample.txt','r')
-text = f.read()
+f = open(r'D:\my_projects\text_mining\stock_project\OtherTry\wordcloud_sample.txt','r')
+text = f.read().decode()
 print(text)
 f.close
 
 # 发现用jieba分词是能出现的,python2和python3中这两个包用法有点差异
 seg_list=jieba.cut(text,cut_all=True) #cut_all参数用来控制是否采用全模式,返回所有可能生成的词
-print("Full Mode: " + "/".join(seg_list))
+print("Full Mode: " + "/".join(seg_list)) #seg_list是一个generator,可以用next()或for循环print出来
 
 seg_list=jieba.cut(text,cut_all=False) #这个模式应该才是我想要用的
 print("Default Mode: " + "/".join(seg_list))
@@ -30,9 +30,9 @@ seg_list=jieba.cut(text,cut_all=False)
 a=[]
 for word in seg_list: #去掉一些单字助词和空格
     if len(word)>1:
-        a.append(word)
+        a.append(word) #seg_list是一个generator，可以用for循环使用每个值
         
-txt=r' '.join(a) #或者用r'/'.join(a)
+txt=r' '.join(a) #或者用r'/'.join(a) 可以将一个list变成一个字符串
 
 
 """

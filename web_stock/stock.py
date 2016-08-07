@@ -4,10 +4,10 @@ from flask import Flask, flash, redirect, render_template, \
      request, url_for
 import csv
 
-app = Flask(__name__)
+app = Flask(__name__)#创建了一个Flask类的实例，告诉Flask到哪里去找应用所需的静态资源和模板。在我们的例子中，我们传递了name，让Flask在当前模块内定位资源
 app.secret_key = 'some_secret'
 
-@app.route('/')
+@app.route('/')#定义了一些关于/的路由
 def index():
     return render_template('index.html') #根目录下的初始网页
 
@@ -50,7 +50,9 @@ def stock(): #要使得登陆后才能进入这个页面,但是现在其实可�
 
 def query(stockcode):
 	path='D:/my_projects/text_mining/stock_project/file/'+stockcode+'.csv'
-	f=open(path,"r+",encoding='utf-8')
+	f=open(path,"r+",encoding='utf-8')  #python2貌似不能这样读，而这里还必须采取python2，很烦躁！后来发现并不是非要用python2
+	#虽然之前python默认为2且pip装在2下，但是只要用virtualenv -p /usr/bin/python3 py3env，就可以source py3env/bin/activate
+	#然后在python3的虚拟空间中安装flask以及运行这个文件了(改了文件路径和IP地址)。
 	f_csv = csv.reader(f)
 	history=[a for a in f_csv if len(a)>0]   #这样就把所有的读入了,因为含有空格行，得删去
 	f.close()
@@ -58,4 +60,4 @@ def query(stockcode):
 
 app.debug=True
 if __name__ == "__main__":
-    app.run(host='223.166.161.27')
+    app.run(host='127.0.0.1')
