@@ -11,7 +11,7 @@ class Html_Outputer(object):
         pass
     def output(self,stock_code,path,new_list):
         new_list.reverse() #倒序输出，最新的放在最后
-        path_new=path+'/file/%s.csv'%stock_code
+        path_new=path+'/file/%s.csv'%stock_code[2:]
         f = open(path_new,"a+",encoding='utf-8')
         writer = csv.writer(f, dialect = "excel")
         writer.writerows(new_list)

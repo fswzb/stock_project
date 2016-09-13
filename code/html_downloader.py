@@ -9,7 +9,7 @@ import urllib
 
 class HtmlDownloader(object):
     def __init__(self):
-        self.url_base='http://vip.stock.finance.sina.com.cn/corp/view/vCB_AllNewsStock.php?symbol='
+        #self.url_base='http://vip.stock.finance.sina.com.cn/corp/view/vCB_AllNewsStock.php?symbol='
         self.page=1 #只下载第一页的40条
     def download(self,stock_code):
         self.url=self.url_base+stock_code+'&Page='+str(self.page)

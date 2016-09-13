@@ -11,14 +11,19 @@ class HtmlContrast(object):#比较后，变为reverve返回。在emotion计算�
     def __init__(self):
         self.new=[]
     def contrast(self,stock,path,content):
-        path_new=path+'/file/%s.csv'%stock
-        f=open(path_new,"r+",encoding='utf-8')
+        path_new=path+'/file/%s.csv'%stock[2:]
+        f=open(path_new,"a+",encoding='utf-8') #这个有个功能，如果没有此文件会自己建立一个
+        f.close()
+        f=open(path_new,"r+",encoding='utf-8') #打开后指针处于文本末尾
         f_csv = csv.reader(f)
         history=[a for a in f_csv if len(a)>0]   #这样就把所有的读入了,因为含有空格行，得删去
         f.close()
-        hist_array=np.array(history)[-40:,] #选择后40个
         new_array=np.array(content)
-        self.new=new_array[-np.in1d(new_array[:,0],hist_array[:,0])]
+        if history==[]:
+            self.new=new_array
+        else:
+            hist_array=np.array(history)[-40:,] #选择后40个，即使是空的也没关系，会返回空，有10个返回10个，不会报错
+            self.new=new_array[-np.in1d(new_array[:,0],hist_array[:,0])]
         return self.new
 
        

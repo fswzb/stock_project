@@ -14,6 +14,7 @@ class HtmlPaser(object):
         self.soup=bs4.BeautifulSoup(html_cont,'html.parser',from_encoding='utf-8')
         heads=self.soup.find_all('div',class_='datelist')[0].find_all('a',target="_blank")
     # 要有[0]才能继续find_all,否则格式不对。
+    # HTML <div>元素是块级元素，它可用于组合其他 HTML 元素的容器，没有特定的含义
         page_total=[]
         for head in heads:
             content=head.get_text()

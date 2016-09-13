@@ -14,6 +14,8 @@ Created on Sat Jun  4 11:52:33 2016
 # 每晚12点生成一次）
 
 import os
+import csv
+
 path="D:/my_projects/text_mining/stock_project"
 path_code=path+'/code'
 os.chdir(path_code)
@@ -23,6 +25,8 @@ import html_parser
 import html_contrast
 import emotion_calculator
 import html_outputer
+
+
 
 #from imp import reload #python3中reload不再作为一个模块，而是作为一个函数移到标准模块imp中
 
@@ -40,23 +44,28 @@ class News_Main(object):
         #输出,感觉可以和前面的contrast放在一起，
     
     def craw(self,stock):
-        #try:
+        try:
             page=self.page_downloader.download(stock)
             html_cont=self.parser.parse(page)
             new_cont=self.contraster.contrast(stock,path,html_cont) #返回的是array
             if len(new_cont)!=0: #可能出现没有新的
-                cont_with_emotion=self.emotion_cal.calculate(new_cont) #返回带有emotion的list
+                cont_with_emotion=self.emotion_cal.calculate(new_cont,path_code) #返回带有emotion的list
                 self.outputer.output(stock,path,cont_with_emotion)
                 print('%s add %d news'%(stock,len(cont_with_emotion)))
             else:
                 print('%s has no new news'%stock)
-        #except:
-            #print("craw %s failed！"%stock)
+        except:
+            print("craw %s failed！"%stock)
 
 
 if __name__=='__main__': 
-    stock_list=['sh601988','sz000858'] #之后将所有代码存进文件，每次读入
+    #stock_list=['sh601988','sz000858'] #之后将所有代码存进文件，每次读入
+    stock_code_path=r'D:\my_projects\text_mining\stock_project\code\StockCode_modify.txt'
+    f=open(stock_code_path,encoding="utf-8")
+    reader=csv.reader(f)
+    stock_list=[line[1].lower()+line[0] for line in reader][1:]
+    f.close()
     for stock in stock_list: #后面可以改为多线程？
-        obj_spider=News_Main() #初始化
+        obj_spider=News_Main() #初始化（这个初始化是否可以放在for循环之前，然后计算情感时要读取的参数放在init里）
         obj_spider.craw(stock)
     #写入时做一次判断，是否存在这个stock的文件夹，如果没有则创建，之后可以往里面增添新的
